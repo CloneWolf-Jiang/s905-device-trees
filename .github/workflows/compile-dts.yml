@@ -1,5 +1,6 @@
 name: Compile DTS Files
 on: [push]
+
 jobs:
   compile-dts:
     runs-on: ubuntu-latest
