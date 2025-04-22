@@ -11,8 +11,8 @@ jobs:
       - name: Create DTS Directory 
         run: |
           echo "DTS_OUTPUTPATH=$GITHUB_WORKSPACE/dts_out" >> "$GITHUB_ENV"
-          if [[ ! -d $DTS_OUTPUTPATH ]]; then  
-            mkdir -p " ${{ env.DTS_OUTPUTPATH }}
+          if [[ ! -d "$DTS_OUTPUTPATH" ]]; then  
+            mkdir -p ${{ env.DTS_OUTPUTPATH }}
             echo "创建DTB输出目录: ${{ env.DTS_OUTPUTPATH }} !"  
           else  
             echo "DTB输出目录已存在: $DTS_OUTPUTPATH !"  
