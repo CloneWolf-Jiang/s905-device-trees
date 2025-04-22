@@ -6,21 +6,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.0.0
-      - name: Install DTC
+      - name: Install DTC 
         run: sudo apt-get install device-tree-compiler
+      - name: Create DTS Directory 
+        run: |
+          echo "DTS_OUTPUTPATH=$GITHUB_WORKSPACE/dts_out" >> "$GITHUB_ENV"
+          if [[ ! -d $DTS_OUTPUTPATH ]]; then  
+            mkdir -p $DTS_OUTPUTPATH  
+            echo "创建DTB输出目录: $DTS_OUTPUTPATH !"  
+          else  
+            echo "DTB输出目录已存在: $DTS_OUTPUTPATH !"  
+          fi 
       - name: Compile DTS to DTB
-        run: find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o "${0%.dts}.dtb" "$0"' {} \;
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4-beta
-        with:
-          name: dtb-files
-          path: "**/*.dtb"
+        id: Compile
+        run: |
+          ##编译dts
+          [[ -d "dtb" ]] || mkdir dtb
+          find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o $DTS_OUTPUTPATH/"${0%.dts}.dtb" "$0"' {} \;
           
       - name: Upload the Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}  # 动态获取当前tag名称
-          artifacts: '**/*.dtb'  # 上传所有DTB文件
+          artifacts: $DTS_OUTPUTPATH
           allowUpdates: true
           removeArtifacts: false
           replacesArtifacts: true
