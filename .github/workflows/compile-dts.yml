@@ -30,7 +30,7 @@ jobs:
             in_dts_file=$(basename "$file")
             out_dts_file=${{ env.DTS_OUTPUTPATH }}/${in_dts_file%.*}.dtb
             echo "正在生成: $out_dts_file"
-            dtc -I dts -O dtb -o ${out_dts_file} ${in_dts_file}
+            dtc -I dts -O dtb -o ${out_dts_file} ${file}
           done
       - name: Upload the Release
         uses: ncipollo/release-action@v1
