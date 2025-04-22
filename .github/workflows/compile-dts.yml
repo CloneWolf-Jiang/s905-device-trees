@@ -9,6 +9,8 @@ jobs:
       - name: Install DTC 
         run: sudo apt-get install device-tree-compiler
       - name: Create DTS Directory 
+        env: 
+          DTS_OUTPUTPATH: $GITHUB_WORKSPACE/dts_out
         run: |
           echo "DTS_OUTPUTPATH=$GITHUB_WORKSPACE/dts_out" >> "$GITHUB_ENV"
           if [[ ! -d "$DTS_OUTPUTPATH" ]]; then  
