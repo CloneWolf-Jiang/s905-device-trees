@@ -22,13 +22,13 @@ jobs:
         run: |
           ##编译dts
           [[ -d "dtb" ]] || mkdir dtb
-          find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o $DTS_OUTPUTPATH/"${0%.dts}.dtb" "$0"' {} \;
+          find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o  ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb" "$0"' {} \;
           
       - name: Upload the Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}  # 动态获取当前tag名称
-          artifacts: $DTS_OUTPUTPATH
+          artifacts:  ${{ env.DTS_OUTPUTPATH }}
           allowUpdates: true
           removeArtifacts: false
           replacesArtifacts: true
