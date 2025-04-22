@@ -11,7 +11,7 @@ jobs:
       - name: Compile DTS to DTB
         run: find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o "${0%.dts}.dtb" "$0"' {} \;
       - name: Upload artifacts
-        uses: actions/upload-artifact
+        uses: actions/upload-artifact@v4-beta
         with:
           name: dtb-files
           path: "**/*.dtb"
