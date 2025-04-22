@@ -23,8 +23,12 @@ jobs:
         id: Compile
         run: |
           ##编译dts
-          find . -name "*.dts" -exec sh -c 'echo "正在编译 ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb ..." && dtc -I dts -O dtb -o  ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb" "$0"' {} \;
-          
+          ##find . -name "*.dts" -exec sh -c 'echo "正在编译 ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb ..." && dtc -I dts -O dtb -o  ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb" "$0"' {} \;
+          TARGET_DIR="./dts"  # 目标目录路径
+          # 遍历目录下所有文件（包含子目录）
+          find "$TARGET_DIR" -type f -print0 | while IFS= read -r -d $'\0' file; do
+            echo "存在文件: $file"  # 输出文件路径
+          done
       - name: Upload the Release
         uses: ncipollo/release-action@v1
         with:
