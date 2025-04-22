@@ -15,3 +15,15 @@ jobs:
         with:
           name: dtb-files
           path: "**/*.dtb"
+          
+      - name: Upload the Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}  # 动态获取当前tag名称
+          artifacts: '**/*.dtb'  # 上传所有DTB文件
+          allowUpdates: true
+          removeArtifacts: false
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            ### 自动编译测试
