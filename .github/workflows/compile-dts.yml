@@ -5,13 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout
       - name: Install DTC
         run: sudo apt-get install device-tree-compiler
       - name: Compile DTS to DTB
         run: find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o "${0%.dts}.dtb" "$0"' {} \;
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact
         with:
           name: dtb-files
           path: "**/*.dtb"
