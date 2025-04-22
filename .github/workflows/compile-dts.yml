@@ -3,14 +3,14 @@ on: [push]
 jobs:
   compile-dts:
     runs-on: ubuntu-latest
+    env:
+      DTS_OUTPUTPATH: $GITHUB_WORKSPACE/dts_out
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.0.0
       - name: Install DTC 
         run: sudo apt-get install device-tree-compiler
       - name: Create DTS Directory 
-        env:
-          DTS_OUTPUTPATH: $GITHUB_WORKSPACE/dts_out
         run: |
           
           if [[ ! -d ${{ env.DTS_OUTPUTPATH }} ]]; then  
