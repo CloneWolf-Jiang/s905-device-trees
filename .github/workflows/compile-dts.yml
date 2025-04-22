@@ -12,19 +12,18 @@ jobs:
         env:
           DTS_OUTPUTPATH: $GITHUB_WORKSPACE/dts_out
         run: |
-          echo "DTS_OUTPUTPATH=$GITHUB_WORKSPACE/dts_out" >> "$GITHUB_ENV"
-          if [[ ! -d "$DTS_OUTPUTPATH" ]]; then  
-            mkdir -p "$DTS_OUTPUTPATH"
+          
+          if [[ ! -d ${{ env.DTS_OUTPUTPATH }} ]]; then  
+            mkdir -p ${{ env.DTS_OUTPUTPATH }}
             echo "创建DTB输出目录: ${{ env.DTS_OUTPUTPATH }} !"  
           else  
-            echo "DTB输出目录已存在: $DTS_OUTPUTPATH !"  
+            echo "DTB输出目录已存在: ${{ env.DTS_OUTPUTPATH }} !"  
           fi 
       - name: Compile DTS to DTB
         id: Compile
         run: |
           ##编译dts
-          [[ -d "dtb" ]] || mkdir dtb
-          find . -name "*.dts" -exec sh -c 'dtc -I dts -O dtb -o  ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb" "$0"' {} \;
+          find . -name "*.dts" -exec sh -c 'echo "正在编译 ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb ..." && dtc -I dts -O dtb -o  ${{ env.DTS_OUTPUTPATH }}/"${0%.dts}.dtb" "$0"' {} \;
           
       - name: Upload the Release
         uses: ncipollo/release-action@v1
